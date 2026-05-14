@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<link rel="icon" type="image/png" href="logo.jpeg">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruang Senja — Perpustakaan Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --cream: #faf7f2;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --rust: #b84a2e;
+    --forest: #2d5016;
+    --sage: #7a9e6e;
+    --muted: #8a8074;
+    --border: #d4cfc6;
+    --card-bg: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--paper); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: rgba(245,240,232,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--ink);
+  }
+  .logo-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+  }
+  .logo-text { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.1rem; }
+  .logo-sub { font-size: 0.65rem; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; }
+
+  .nav-links {
+    display: flex; gap: 0.2rem; list-style: none;
+  }
+  .nav-links a {
+    display: block; padding: 0.4rem 0.75rem;
+    text-decoration: none; color: var(--ink);
+    font-size: 0.82rem; font-weight: 500;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    background: var(--ink); color: var(--paper);
+  }
+
+  .nav-cta {
+    background: var(--gold) !important;
+    color: var(--ink) !important;
+    font-weight: 600 !important;
+  }
+  .nav-cta:hover { background: var(--gold-light) !important; }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; }
+  .hamburger span { width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: 0.3s; }
+
+  /* ─── HERO ─── */
+  #home {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 64px;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5rem 3rem 5rem 4rem;
+    position: relative;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--gold); color: var(--ink);
+    font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.3rem 0.8rem; border-radius: 20px;
+    margin-bottom: 1.5rem;
+    width: fit-content;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+	
+  }
+  .hero-title em { color: var(--gold); font-style: italic; }
+
+  .hero-desc {
+    color: var(--muted);
+    font-size: 1rem; line-height: 1.7;
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+	text-align: justify;
+	
+  }
+
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+	
+  }
+
+  .btn-primary {
+    background: var(--ink); color: var(--paper);
+    padding: 0.8rem 1.8rem; border: none;
+    border-radius: 8px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+
+  .btn-outline {
+    background: transparent; color: var(--ink);
+    padding: 0.8rem 1.8rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 8px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { background: var(--ink); color: var(--paper); }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 3rem;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 900; color: var(--ink);
+    line-height: 1;
+  }
+  .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+  .hero-right {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--ink);
+    overflow: hidden;
+  }
+
+  .hero-visual {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .book-shelf {
+    display: flex; gap: 6px; align-items: flex-end;
+    animation: floatAnim 4s ease-in-out infinite;
+  }
+
+  .book {
+    border-radius: 3px 8px 8px 3px;
+    position: relative; cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .book:hover { transform: translateY(-12px) rotate(-2deg); }
+
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(201,168,76,0.15) 0%, transparent 60%);
+  }
+
+  .hero-quote {
+    position: absolute; bottom: 3rem; left: 2rem; right: 2rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic; color: rgba(245,240,232,0.5);
+    font-size: 0.85rem; line-height: 1.6;
+    border-left: 2px solid var(--gold);
+    padding-left: 1rem;
+    animation: fadeUp 0.8s 0.6s ease both;
+	
+  }
+
+  /* ─── SEARCH BAND ─── */
+  .search-band {
+    background: var(--gold);
+    padding: 1.5rem 4rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .search-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-weight: 700;
+    white-space: nowrap; color: var(--ink);
+  }
+  .search-wrapper {
+    flex: 1; display: flex;
+    background: white;
+    border-radius: 8px; overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  .search-wrapper input {
+    flex: 1; padding: 0.85rem 1.2rem;
+    border: none; outline: none;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    background: transparent;
+  }
+  .search-wrapper select {
+    border: none; border-left: 1px solid #eee;
+    padding: 0 1rem; outline: none;
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+    background: transparent; color: var(--muted);
+    cursor: pointer;
+  }
+  .search-btn {
+    background: var(--ink); color: var(--paper);
+    border: none; padding: 0 1.5rem;
+    cursor: pointer; font-size: 1rem;
+    transition: background 0.2s;
+  }
+  .search-btn:hover { background: #333; }
+
+  /* ─── SECTIONS COMMON ─── */
+  section { padding: 5rem 4rem; }
+  section:nth-child(even) { background: var(--paper); }
+
+  .section-tag {
+    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 0.8rem;
+  }
+  .section-tag::before {
+    content: ''; width: 24px; height: 2px; background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 700; line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    color: var(--muted); font-size: 0.95rem; line-height: 1.7;
+    max-width: 540px; text-align: justify;  margin-bottom: 1.2rem;
+  }
+
+  .section-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 3rem; gap: 2rem; flex-wrap: wrap;
+  }
+
+  /* ─── PROFIL ─── */
+  #profil {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+
+  .profil-content { }
+
+  .profil-tabs {
+    display: flex; gap: 0.5rem; margin-top: 2rem; margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab-btn {
+    padding: 0.5rem 1.2rem;
+    border: none; background: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 500;
+    cursor: pointer; color: var(--muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px; transition: 0.2s;
+  }
+  .tab-btn.active { color: var(--ink); border-bottom-color: var(--gold); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .tab-content p {
+    color: var(--muted); line-height: 1.8; font-size: 0.92rem;
+	text-align: justify;
+    animation: fadeUp 0.3s ease;
+  }
+
+  .profil-visual {
+    position: relative;
+  }
+  .profil-card {
+    background: var(--ink); color: var(--paper);
+    border-radius: 16px; padding: 2.5rem;
+    position: relative; overflow: hidden;
+  }
+  .profil-card::before {
+    content: '';
+    position: absolute; top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.15);
+  }
+  .profil-card-icon { font-size: 3rem; margin-bottom: 1rem; }
+  .profil-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; margin-bottom: 0.5rem;
+  }
+  .profil-card p { color: rgba(245,240,232,0.6); font-size: 0.88rem; line-height: 1.6; }
+  .profil-card-url {
+    margin-top: 1.5rem; padding: 0.7rem 1rem;
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem; color: var(--gold-light);
+    word-break: break-all;
+  }
+
+  .profil-badges {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; margin-top: 1rem;
+  }
+  .profil-badge {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.2rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .profil-badge:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .profil-badge .icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .profil-badge .title { font-size: 0.78rem; font-weight: 600; color: var(--ink); }
+  .profil-badge .sub { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+
+  /* ─── KATALOG / OPAC ─── */
+  #katalog { }
+
+  .opac-box {
+    background: var(--ink); border-radius: 40px;
+    padding: 3rem; color: var(--paper);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3rem; align-items: center;
+    margin-bottom: 3rem;
+  }
+  .opac-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; margin-bottom: 1rem;
+  }
+  .opac-box p { color: rgba(245,240,232,0.65); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.5rem; }
+
+  .opac-form { display: flex; flex-direction: column; gap: 1rem; }
+  .opac-input {
+    padding: 0.8rem 1rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px; color: var(--paper);
+    font-family: 'DM Sans', sans-serif; 
+	font-size: 0.9rem;
+    outline: none; 
+	transition: border-color 0.2s;
+  }
+  .opac-input option {
+  color: #111;
+  background: #fff;
+ }
+  .opac-input::placeholder { color: rgba (245,240,232,0.35); }
+  .opac-input:focus { border-color: var(--gold); }
+  .opac-row { display: flex; gap: 0.8rem; }
+  .opac-btn {
+    background: var(--gold); color: var(--ink);
+    border: none; padding: 0.8rem 1.5rem;
+    border-radius: 8px; font-family: 'DM Sans', sans-serif;
+    font-weight: 600; font-size: 0.9rem;
+    cursor: pointer; flex: 1; transition: background 0.2s;
+  }
+  .opac-btn:hover { background: var(--gold-light); }
+
+  .book-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1.5rem;
+ .book-card{
+  width: 180px;
+}
+
+.book-cover{
+  height: 250px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.book-cover img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+  .book-title-overlay{
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  font-weight: bold;
+  background: rgba(0,0,0,0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+  }
+  .book-meta { padding: 0.7rem 0.2rem; }
+  .book-author { font-size: 0.75rem; color: var(--muted); }
+  .book-category {
+    font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold); margin-top: 2px;
+  }
+
+  /* ─── LAYANAN ─── */
+  #layanan { }
+  .layanan-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  .layanan-card {
+    background: white; border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+  .layanan-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    border-color: var(--gold);
+  }
+  .layanan-icon {
+    width: 52px; height: 52px;
+    background: var(--paper); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; margin-bottom: 1.2rem;
+  }
+  .layanan-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .layanan-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+  /* ─── KOLEKSI ─── */
+  #koleksi { background: var(--ink); color: var(--paper); }
+  #koleksi .section-title { color: var(--paper); }
+  #koleksi .section-desc { color: rgba(245,240,232,0.6); }
+  #koleksi .section-tag { color: var(--gold-light); }
+  #koleksi .section-tag::before { background: var(--gold-light); }
+
+  .koleksi-tabs {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+  .kol-tab {
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px; background: transparent;
+    color: rgba(245,240,232,0.6);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem; cursor: pointer; transition: 0.2s;
+  }
+  .kol-tab.active {
+    background: var(--gold); color: var(--ink);
+    border-color: var(--gold); font-weight: 600;
+  }
+
+  .koleksi-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .koleksi-item {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 1.5rem;
+    display: flex; align-items: flex-start; gap: 1rem;
+    transition: background 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+  .koleksi-item:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: rgba(201,168,76,0.3);
+  }
+  .koleksi-thumb {
+    width: 56px; height: 72px; border-radius: 4px 8px 8px 4px;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+  }
+  .koleksi-info h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem; margin-bottom: 0.3rem;
+    color: var(--paper);
+  }
+  .koleksi-info p { font-size: 0.78rem; color: rgba(245,240,232,0.5); line-height: 1.5; }
+  .koleksi-badge {
+    display: inline-flex; align-items: center;
+    background: rgba(201,168,76,0.2); color: var(--gold-light);
+    font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.2rem 0.5rem; border-radius: 4px; margin-top: 0.5rem;
+  }
+
+  /* ─── FAQ / PANDUAN ─── */
+  #panduan { }
+  .panduan-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: start;
+  }
+
+  .faq-list { display: flex; flex-direction: column; gap: 0.8rem; }
+  .faq-item {
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .faq-item.open { border-color: var(--gold); }
+  .faq-q {
+    padding: 1.1rem 1.2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; font-weight: 600; font-size: 0.88rem;
+    transition: background 0.2s;
+  }
+  .faq-q:hover { background: var(--paper); }
+  .faq-q span { color: var(--muted); font-size: 1rem; transition: transform 0.3s; }
+  .faq-item.open .faq-q span { transform: rotate(45deg); }
+  .faq-a {
+    padding: 0 1.2rem; max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s;
+    font-size: 0.85rem; color: var(--muted); line-height: 1.7;
+    border-top: 0px solid var(--border);
+  }
+  .faq-item.open .faq-a {
+    max-height: 200px; padding: 0 1.2rem 1.2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .panduan-cards { display: flex; flex-direction: column; gap: 1rem; }
+ .panduan-card{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+
+  text-decoration: none;
+  color: black;
+
+  padding: 15px;
+  border-radius: 10px;
+  background: white;
+}
+  .panduan-card:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .panduan-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .panduan-card h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.2rem; }
+  .panduan-card p { font-size: 0.78rem; color: var(--muted); }
+  .panduan-arrow { margin-left: auto; color: var(--muted); }
+
+  /* ─── AGENDA ─── */
+  #agenda { background: var(--paper); }
+  .agenda-grid {
+    display: grid; grid-template-columns: 1fr 1.5fr;
+    gap: 3rem;
+  }
+
+  .mini-calendar {
+    background: white; border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+    user-select: none;
+  }
+  .cal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1.2rem;
+  }
+  .cal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight: 700;
+  }
+  .cal-nav { background: none; border: none; cursor: pointer; font-size: 1rem; color: var(--muted); padding: 4px 8px; border-radius: 6px; transition: background 0.2s; }
+  .cal-nav:hover { background: var(--paper); }
+  .cal-days-header {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    text-align: center; font-size: 0.68rem;
+    font-weight: 600; color: var(--muted);
+    letter-spacing: 0.05em; margin-bottom: 0.5rem;
+  }
+  .cal-days {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 2px; text-align: center;
+  }
+  .cal-day {
+    aspect-ratio: 1; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; cursor: pointer; transition: 0.2s;
+    color: var(--ink);
+  }
+  .cal-day:hover { background: var(--paper); }
+  .cal-day.today { background: var(--ink); color: var(--paper); font-weight: 700; }
+  .cal-day.has-event { position: relative; }
+  .cal-day.has-event::after {
+    content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px; border-radius: 50%; background: var(--gold);
+  }
+  .cal-day.other-month { color: var(--muted); opacity: 0.4; }
+
+  .agenda-list { display: flex; flex-direction: column; gap: 1rem; }
+  .agenda-item {
+    background: white; border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.2rem;
+    display: flex; gap: 1.2rem; align-items: flex-start;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .agenda-item:hover { transform: translateY(-2px); border-color: var(--gold); }
+  .agenda-date {
+    min-width: 52px; text-align: center;
+    background: var(--ink); color: var(--paper);
+    border-radius: 10px; padding: 0.6rem 0.4rem;
+  }
+  .agenda-date .day { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; line-height: 1; }
+  .agenda-date .mon { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7; margin-top: 2px; }
+  .agenda-info h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .agenda-info p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+  .agenda-tag {
+    display: inline-flex; align-items: center;
+    background: var(--paper); color: var(--muted);
+    font-size: 0.65rem; font-weight: 600;
+    padding: 0.2rem 0.5rem; border-radius: 4px; margin-top: 0.5rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  /* ─── BERITA ─── */
+  #berita { }
+  .berita-grid {
+    display: grid; grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+  }
+  .berita-main {
+    background: var(--ink); border-radius: 20px;
+    overflow: hidden; cursor: pointer;b446
+	transition: transform 0.2s;
+  }
+  .berita-main:hover { transform: scale(1.01); }
+  .berita-img {
+    height: 260px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+    position: relative; overflow: hidden;
+  }
+  .berita-main-body { padding: 2rem; }
+  .berita-tag {
+    display: inline-flex;
+    background: var(--gold); color: var(--ink);
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.25rem 0.6rem; border-radius: 4px;
+    margin-bottom: 0.8rem;
+  }
+  .berita-main h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; color: var(--paper);
+    line-height: 1.3; margin-bottom: 0.8rem;
+  }
+  .berita-main p { color: rgba(245,240,232,0.6); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1rem; }
+  .berita-meta { font-size: 0.75rem; color: rgba(245,240,232,0.4); }
+
+  .berita-side { display: flex; flex-direction: column; gap: 1rem; }
+  .berita-card {
+    background: white; border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.2rem;
+    cursor: pointer; transition: 0.2s;
+  }
+  .berita-card:hover { border-color: var(--gold); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+  .berita-card .tag { margin-bottom: 0.5rem; }
+  .berita-card h4 { font-size: 0.88rem; font-weight: 700; line-height: 1.4; margin-bottom: 0.4rem; }
+  .berita-card p { font-size: 0.78rem; color: var(--muted); }
+
+  /* ─── KONTAK ─── */
+  #kontak { background: var(--ink); color: var(--paper); }
+  #kontak .section-title { color: var(--paper); }
+  #kontak .section-desc { color: rgba(245,240,232,0.6); }
+  #kontak .section-tag { color: var(--gold-light); }
+  #kontak .section-tag::before { background: var(--gold-light); }
+
+  .kontak-grid {
+    display: grid; grid-template-columns: 1fr 1.2fr;
+    gap: 4rem; align-items: start;
+  }
+
+  .kontak-info { display: flex; flex-direction: column; gap: 1.5rem; }
+  .kontak-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+  }
+  .kontak-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: rgba(255,255,255,0.08); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  .kontak-item h4 { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+  .kontak-item p { font-size: 0.88rem; color: rgba(245,240,232,0.7); line-height: 1.6; }
+
+ .kontak-map{
+    width:100%;
+    height:300px;
+    overflow:hidden;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,0.1);
+    margin-bottom:20px;
+}
+
+.kontak-map iframe{
+    width:100%;
+    height:100%;
+    border:none;
+    display:block;
+}
+ 
+  .kontak-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(245,240,232,0.5); }
+  .form-group input, .form-group textarea, .form-group select {
+    padding: 0.8rem 1rem;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px; color: var(--paper);
+    font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+    outline: none; transition: border-color 0.2s;
+    resize: none;
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(245,240,232,0.3); }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--gold); }
+
+  .submit-btn {
+    background: var(--gold); color: var(--ink);
+    border: none; padding: 0.9rem 2rem;
+    border-radius: 8px; font-family: 'DM Sans', sans-serif;
+    font-weight: 700; font-size: 0.9rem;
+    cursor: pointer; transition: background 0.2s, transform 0.2s;
+    align-self: flex-start;
+  }
+  .submit-btn:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #080808; color: rgba(245,240,232,0.5);
+    padding: 2.5rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  footer .logo-text { color: var(--paper); }
+  footer p { font-size: 0.8rem; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { color: rgba(245,240,232,0.4); font-size: 0.8rem; text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes floatAnim {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex; flex-direction: column;
+      position: fixed; top: 64px; left: 0; right: 0;
+      background: var(--cream); padding: 1rem;
+      border-bottom: 1px solid var(--border); gap: 0.2rem;
+    }
+    .hamburger { display: flex; }
+    #home { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 3rem 2rem; }
+    section { padding: 3rem 2rem; }
+    #profil, .opac-box, .panduan-grid, .agenda-grid, .berita-grid, .kontak-grid { grid-template-columns: 1fr; }
+    .search-band { padding: 1.5rem 2rem; flex-direction: column; gap: 0.8rem; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { padding: 2rem; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <div class="logo-icon">
+	<img src="logo.jpeg" alt="Logo">
+	</div>
+    <div>
+      <div class="logo-text">Ruang Senja</div>
+      <div class="logo-sub">Perpustakaan Digital</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home" class="active">Beranda</a></li>
+    <li><a href="#profil">Profil</a></li>
+    <li><a href="#katalog">Katalog</a></li>
+    <li><a href="#layanan">Layanan</a></li>
+    <li><a href="#koleksi">Koleksi</a></li>
+    <li><a href="#panduan">Panduan</a></li>
+    <li><a href="#agenda">Agenda</a></li>
+    <li><a href="#berita">Berita</a></li>
+    <li><a href="#kontak" class="nav-cta">Kontak</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="home">
+  <div class="hero-left">
+    <div class="hero-badge">🏛️ Perpustakaan Umum Daerah</div>
+    <h1 class="hero-title">
+      Tempat <em>Pulang</em> Bagi<br>Para Pembaca
+    </h1>
+    <p class="hero-desc">
+      Ruang Senja hadir sebagai tempat pulang bagi para pembaca, menyediakan ruang nyaman untuk belajar, menjelajah berbagai koleksi, dan menemukan makna di setiap bacaan.
+    </p>
+    <div class="hero-btns">
+      <a href="#katalog" class="btn-primary">🔍 Cari Buku</a>
+      <a href="#profil" class="btn-outline">Tentang Kami</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">42K+</div>
+        <div class="stat-label">Koleksi Buku</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">1.2K</div>
+        <div class="stat-label">Jurnal Digital</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">8.5K</div>
+        <div class="stat-label">Anggota Aktif</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right" style="padding: 2.5rem; display:flex; align-items:center; justify-content:center; background: var(--ink);">
+  <div style="width:100%; max-width:400px; display:flex; flex-direction:column; gap:1rem;">
+
+    <!-- Label -->
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span style="background:var(--gold); color:var(--ink); font-size:0.65rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; padding:0.25rem 0.7rem; border-radius:20px;">📚 Kegiatan Terbaru</span>
+      <span style="color:rgba(245,240,232,0.4); font-size:0.75rem;">18 Mei 2026</span>
+    </div>
+
+    <!-- Gambar kegiatan (foto dokumentasi) -->
+    <div style="width:100%; height:200px; border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.1);">
+      <img src="banner.jpeg" alt="Foto Bazar Buku Murah" style="width:100%; height:100%; object-fit:cover; display:block;">
+    </div>
+
+    <!-- Info kegiatan -->
+    <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:1.2rem; display:flex; gap:1rem; align-items:flex-start;">
+
+      <!-- Poster kegiatan -->
+      <div style="width:80px; min-width:80px; height:110px; border-radius:8px; overflow:hidden; border:1px solid rgba(201,168,76,0.3);">
+        <img src="poster.jpeg" alt="Poster Bazar Buku" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
+
+      <!-- Teks info -->
+      <div style="flex:1;">
+        <div style="font-size:0.65rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:0.4rem;">📚 Event</div>
+        <div style="font-family:'Playfair Display', serif; font-size:1rem; font-weight:700; color:var(--paper); line-height:1.35; margin-bottom:0.5rem;">Bazar Buku Murah</div>
+        <div style="font-size:0.78rem; color:rgba(245,240,232,0.55); line-height:1.6;">Bazar buku bekas dan baru dengan diskon hingga 70%. Terbuka untuk umum, gratis masuk.</div>
+        <div style="margin-top:0.6rem; font-size:0.72rem; color:rgba(245,240,232,0.35);">📍 Ruang Senja · 18 Mei 2026</div>
+      </div>
+
+    </div>
+
+    <!-- Link ke berita -->
+    <a href="#agenda" style="display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:0.7rem 1rem; text-decoration:none;" onmouseover="this.style.background='rgba(201,168,76,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.04)'">
+      <span style="font-size:0.8rem; color:rgba(245,240,232,0.5);">Bazar buku berjalan lancar, 200 buku terjual habis. Nantikan kegiatan kami selanjutnya hanya di RUANG SENJA.</span>
+    </a>
+
+  </div>
+</div>
+    <div class="hero-overlay"></div>
+    <div class="hero-quote">
+      "Perpustakaan adalah tempat di mana masa lalu, kini, dan masa depan bertemu."
+    </div>
+  </div>
+</section>
+
+<!-- ─── SEARCH BAND ─── -->
+<div class="search-band">
+  <div class="search-label">📖 Cari Koleksi</div>
+  <div class="search-wrapper">
+    <input type="text" placeholder="Judul buku, pengarang, atau kata kunci..." id="searchInput">
+    <select id="searchType">
+      <option>Semua</option>
+      <option>Judul</option>
+      <option>Pengarang</option>
+      <option>Subjek</option>
+      <option>ISBN</option>
+    </select>
+	<a href="#katalog" class="btn-primary">🔍 </a>
+  </div>
+</div>
+
+<!-- ─── PROFIL ─── -->
+<section id="profil">
+  <div class="profil-content">
+    <div class="section-tag">Profil Perpustakaan</div>
+    <h2 class="section-title">Mengenal<br>Ruang Senja</h2>
+    <p class="section-desc">
+		Ruang Senja adalah perpustakaan modern yang menjadi tempat pulang bagi para pembaca. Dengan suasana hangat dan nyaman, perpustakaan ini menyediakan berbagai koleksi bacaan serta ruang untuk belajar, bereksplorasi, dan menikmati waktu membaca.
+		</p>
+	<p class="section-desc">
+	Tidak hanya sebagai tempat membaca, Ruang Senja juga menjadi ruang interaksi melalui kegiatan literasi dan komunitas. Didukung akses digital, Ruang Senja hadir sebagai perpustakaan yang relevan, inklusif, dan dekat dengan generasi muda.
+	</p>
+
+    <div class="profil-tabs">
+      <button class="tab-btn active" onclick="switchTab(this, 'tab-sejarah')">Sejarah</button>
+      <button class="tab-btn" onclick="switchTab(this, 'tab-visi')">Visi & Misi</button>
+      <button class="tab-btn" onclick="switchTab(this, 'tab-struktur')">Struktur Org.</button>
+    </div>
+
+    <div class="tab-content active" id="tab-sejarah">
+	<p> Ruang Senja didirikan pada tahun 2023 sebagai inisiatif untuk menghadirkan perpustakaan dengan konsep yang lebih hangat, santai, dan dekat dengan generasi muda. Berangkat dari keresahan akan minimnya ruang baca yang nyaman dan tidak kaku, Ruang Senja hadir sebagai alternatif tempat belajar sekaligus ruang pulang bagi para pembaca.<br><br>
+		Sejak awal berdirinya, Ruang Senja tidak hanya berfokus pada penyediaan koleksi buku, tetapi juga menciptakan pengalaman membaca yang menyenangkan melalui suasana yang cozy serta kegiatan literasi yang interaktif. Seiring perkembangannya, Ruang Senja mulai mengintegrasikan layanan digital untuk memperluas akses informasi dan menjangkau lebih banyak pembaca.<br><br>
+		Kini, Ruang Senja terus berkembang sebagai perpustakaan modern yang tidak hanya menjadi tempat membaca, tetapi juga ruang untuk berbagi ide, tumbuh, dan terhubung dalam komunitas literasi.</p>   
+    </div>
+	<div class="tab-content" id="tab-visi">
+      <p><strong>Visi:</strong> Menjadi perpustakaan digital modern yang hangat, inklusif, dan inovatif sebagai ruang literasi, pembelajaran, serta pengembangan kreativitas bagi generasi muda.<br><br>
+      <strong>Misi:</strong> <br> 1. Menyediakan akses informasi dan koleksi digital yang mudah, cepat, dan relevan bagi pengguna.
+							 <br> 2. Menciptakan suasana perpustakaan yang nyaman, interaktif, dan mendukung budaya membaca.
+							 <br> 3. Mengembangkan layanan berbasis teknologi informasi untuk meningkatkan kualitas pelayanan perpustakaan.</p>
+    </div>
+    <div class="tab-content" id="tab-struktur">
+      <p><strong>Kepala Perpustakaan:</strong> Tasya Putri Agnisia<br>
+      <strong>Kabid Layanan:</strong> Vellyza Tri Andini<br>
+      <strong>Kabid Koleksi & Pengolahan:</strong> Shafira Tohar<br>
+      <strong>Kabid Teknologi Informasi:</strong> Fiona Aulia Anggraeni<br>
+      <strong>Staff Layanan:</strong> 12 orang</p>
+    </div>
+  </div>
+
+  <div class="profil-visual">
+    <div class="profil-card">
+      <div class="profil-card-icon">🏛️</div>
+      <h3>Ruang Senja</h3>
+      <p>Perpustakaan Umum Daerah Kota Semarang — melayani masyarakat dalam pencarian ilmu dan informasi.</p>
+      <div class="profil-card-url">🌐 www.ruangsenja.sch.id</div>
+    </div>
+    <div class="profil-badges">
+      <div class="profil-badge">
+        <div class="icon">📍</div>
+        <div class="title">Lokasi Strategis</div>
+        <div class="sub">Jl. Prof. Soedarto, Tembalang, Semarang, Jawa Tengah</div>
+      </div>
+      <div class="profil-badge">
+        <div class="icon">⏰</div>
+        <div class="title">Jam Operasional</div>
+        <div class="sub">Senin - Sabtu 08.00 - 19.00 </div>
+      </div>
+      <div class="profil-badge">
+        <div class="icon">🏆</div>
+        <div class="title">Terakreditasi A</div>
+        <div class="sub">Perpusnas 2023</div>
+      </div>
+      <div class="profil-badge">
+        <div class="icon">♿</div>
+        <div class="title">Ramah Difabel</div>
+        <div class="sub">Fasilitas lengkap</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── KATALOG / OPAC ─── -->
+<section id="katalog">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Katalog Online</div>
+      <h2 class="section-title">OPAC — Online Public<br>Access Catalogue</h2>
+    </div>
+    <a href="https://opac.perpusnas.go.id/" class="btn-outline">Masuk ke OPAC →</a>
+  </div>
+
+  <div class="opac-box">
+    <div>
+      <h3>Temukan buku yang<br>kamu butuhkan</h3>
+      <p>Akses ribuan koleksi perpustakaan secara online. Cek ketersediaan, lokasi rak, dan status peminjaman secara real-time.</p>
+      <a href="https://opac.perpusnas.go.id/" class="btn-primary" style="width:fit-content">Mencari koleksi →</a>
+    </div>
+    <div class="opac-form">
+      <input class="opac-input" type="text" placeholder="Judul / Pengarang / ISBN / Subjek...">
+      <div class="opac-row">
+        <select class="opac-input" style="flex:1">
+          <option>Semua Kategori</option>
+          <option>Fiksi</option>
+          <option>Non-Fiksi</option>
+          <option>Referensi</option>
+          <option>Jurnal</option>
+          <option>Skripsi/Tesis</option>
+          <option>E-Book</option>
+        </select>
+        <button class="opac-btn" onclick="window.location.href='https://opac.perpusnas.go.id/'">
+  Cari 🔍
+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="book-grid">
+    <div class="book-card">
+      <div class="book-cover" >
+	  <img src="laskar pelangi.jpeg">
+       
+		
+	  </div>
+      <div class="book-meta">
+        <div class="book-author">Andrea Hirata</div>
+        <div class="book-category">Fiksi Indonesia</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-cover">
+	   <img src="riwayat.jpeg">
+       
+      </div>
+      <div class="book-meta">
+        <div class="book-author">Yuval Noah Harari</div>
+        <div class="book-category">Non-Fiksi</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-cover">
+	   <img src="bumi manusia.jpeg">
+       
+      </div>
+      <div class="book-meta">
+        <div class="book-author">Pramoedya A. Toer</div>
+        <div class="book-category">Sastra Klasik</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-cover">
+	  <img src="atomic.jpeg">
+        
+      </div>
+      <div class="book-meta">
+        <div class="book-author">James Clear</div>
+        <div class="book-category">Pengembangan Diri</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-cover" >
+	  <img src="perahu.jpeg">
+      
+      </div>
+      <div class="book-meta">
+        <div class="book-author">Dee Lestari</div>
+        <div class="book-category">Fiksi Indonesia</div>
+      </div>
+    </div>
+    <div class="book-card">
+      <div class="book-cover">
+	   <img src="rich.jpeg">
+        
+      </div>
+      <div class="book-meta">
+        <div class="book-author">Robert Kiyosaki</div>
+        <div class="book-category">Keuangan</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LAYANAN ─── -->
+<section id="layanan">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Layanan Kami</div>
+      <h2 class="section-title">Apa yang Bisa<br>Kami Bantu?</h2>
+    </div>
+  </div>
+  <div class="layanan-grid">
+    <div class="layanan-card">
+      <div class="layanan-icon">📖</div>
+      <h3>Peminjaman Buku</h3>
+      <p>Pinjam hingga 5 buku sekaligus dengan masa pinjam 14 hari. Anggota aktif dapat memperpanjang secara online.</p>
+    </div>
+    <div class="layanan-card">
+      <div class="layanan-icon">💻</div>
+      <h3>Akses Internet & Komputer</h3>
+      <p>Tersedia 30 unit komputer dengan akses internet gratis bagi anggota terdaftar, termasuk printer dan scanner.</p>
+    </div>
+    <div class="layanan-card">
+      <div class="layanan-icon">📚</div>
+      <h3>Ruang Baca & Diskusi</h3>
+      <p>Nikmati ruang baca yang nyaman dan 4 ruang diskusi kapasitas 10–20 orang yang dapat dipesan online.</p>
+    </div>
+    <div class="layanan-card">
+      <div class="layanan-icon">🎓</div>
+      <h3>Literasi & Pelatihan</h3>
+      <p>Program literasi informasi, pelatihan penelusuran database, dan workshop akademik secara rutin.</p>
+    </div>
+    <div class="layanan-card">
+      <div class="layanan-icon">🖨️</div>
+      <h3>Fotokopi & Cetak</h3>
+      <p>Layanan fotokopi, cetak, dan penjilidan dokumen dengan harga terjangkau di gedung perpustakaan.</p>
+    </div>
+    <div class="layanan-card">
+      <div class="layanan-icon">📱</div>
+      <h3>Layanan Digital</h3>
+      <p>Akses e-book, e-journal, dan database ilmiah dari mana saja menggunakan nomor keanggotaan Anda.</p>
+    </div>
+    <div class="layanan-card">
+      <div class="layanan-icon">👶</div>
+      <h3>Sudut Anak</h3>
+      <p>Area khusus anak dengan koleksi buku cerita, mainan edukatif, dan program mendongeng setiap Sabtu.</p>
+    </div>
+    <div class="layanan-card">
+      <div class="layanan-icon">♿</div>
+      <h3>Layanan Difabel</h3>
+      <p>Koleksi braille, audio book, dan pendamping khusus untuk anggota berkebutuhan khusus.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── KOLEKSI ─── -->
+<section id="koleksi">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Koleksi Perpustakaan</div>
+      <h2 class="section-title">Jelajahi Koleksi<br>Kami</h2>
+      <p class="section-desc" style="color:rgba(245,240,232,0.6)">Dari buku fisik hingga jurnal digital, kami memiliki sumber daya untuk setiap kebutuhan belajar.</p>
+    </div>
+  </div>
+
+  <div class="koleksi-tabs">
+    <button class="kol-tab active" onclick="filterKoleksi(this, 'semua')">Semua</button>
+    <button class="kol-tab" onclick="filterKoleksi(this, 'buku')">📚 Koleksi Buku</button>
+    <button class="kol-tab" onclick="filterKoleksi(this, 'digital')">💿 Koleksi Digital</button>
+    <button class="kol-tab" onclick="filterKoleksi(this, 'jurnal')">📄 Jurnal & Skripsi</button>
+  </div>
+
+  <div class="koleksi-grid" id="koleksiGrid">
+    <div class="koleksi-item" data-cat="buku">
+      <div class="koleksi-thumb" style="background:linear-gradient(135deg,#c9a84c,#8b6914)">📗</div>
+      <div class="koleksi-info">
+        <h4>Fiksi & Sastra</h4>
+        <p>Novel, cerpen, puisi, dan karya sastra Indonesia & dunia</p>
+        <span class="koleksi-badge">8.420 judul</span>
+      </div>
+    </div>
+    <div class="koleksi-item" data-cat="buku">
+      <div class="koleksi-thumb" style="background:linear-gradient(135deg,#2d5016,#7a9e6e)">📘</div>
+      <div class="koleksi-info">
+        <h4>Ilmu Pengetahuan</h4>
+        <p>Sains, teknologi, matematika, dan ilmu alam</p>
+        <span class="koleksi-badge">6.340 judul</span>
+      </div>
+    </div>
+    <div class="koleksi-item" data-cat="buku">
+      <div class="koleksi-thumb" style="background:linear-gradient(135deg,#b84a2e,#e08060)">📙</div>
+      <div class="koleksi-info">
+        <h4>Sosial & Humaniora</h4>
+        <p>Sejarah, filsafat, sosiologi, psikologi, hukum</p>
+        <span class="koleksi-badge">5.680 judul</span>
+      </div>
+    </div>
+    <div class="koleksi-item" data-cat="digital">
+      <div class="koleksi-thumb" style="background:linear-gradient(135deg,#4a7a8a,#a0c4d4)">📱</div>
+      <div class="koleksi-info">
+        <h4>E-Book</h4>
+        <p>Buku elektronik yang dapat diakses 24 jam</p>
+        <span class="koleksi-badge">3.200 judul</span>
+      </div>
+    </div>
+    <div class="koleksi-item" data-cat="jurnal">
+      <div class="koleksi-thumb" style="background:linear-gradient(135deg,#7a4f9e,#b090d0)">📑</div>
+      <div class="koleksi-info">
+        <h4>Jurnal Ilmiah</h4>
+        <p>Jurnal nasional dan internasional terindeks</p>
+        <span class="koleksi-badge">1.250 edisi</span>
+      </div>
+    </div>
+    <div class="koleksi-item" data-cat="jurnal">
+      <div class="koleksi-thumb" style="background:linear-gradient(135deg,#8a6040,#c0a080)">🎓</div>
+      <div class="koleksi-info">
+        <h4>Skripsi & Tesis</h4>
+        <p>Karya ilmiah mahasiswa berbagai perguruan tinggi</p>
+        <span class="koleksi-badge">4.120 dokumen</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PANDUAN / FAQ ─── -->
+<section id="panduan">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Panduan & FAQ</div>
+      <h2 class="section-title">Pertanyaan yang Sering<br>Ditanyakan</h2>
+    </div>
+  </div>
+
+  <div class="panduan-grid">
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Bagaimana cara menggunakan OPAC? <span>+</span>
+        </div>
+        <div class="faq-a">OPAC (Online Public Access Catalogue) dapat diakses melalui menu Katalog di website ini atau komputer yang tersedia di perpustakaan. Masukkan kata kunci pada kolom pencarian, pilih kategori, lalu tekan tombol Cari. Hasil pencarian akan menampilkan ketersediaan dan lokasi buku.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Apa syarat dan ketentuan meminjam buku? <span>+</span>
+        </div>
+        <div class="faq-a">Syarat peminjaman: kartu anggota aktif, maksimal 5 buku sekaligus, masa pinjam 14 hari, dapat diperpanjang 1x secara online. Denda keterlambatan Rp 500/hari/buku. Kehilangan buku wajib mengganti dengan judul yang sama atau senilai harga buku.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          FAQ tentang layanan perpustakaan? <span>+</span>
+        </div>
+        <div class="faq-a">Perpustakaan buka Senin–Jumat 08.00–20.00, Sabtu 08.00–16.00, Minggu tutup. Hari libur nasional mengikuti ketentuan pemerintah. Layanan WiFi gratis tersedia, pendaftaran anggota baru gratis dengan KTP.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Bagaimana cara mendaftar sebagai anggota? <span>+</span>
+        </div>
+        <div class="faq-a">Pendaftaran anggota baru dapat dilakukan secara online melalui formulir di website atau langsung di meja layanan keanggotaan. Bawa fotokopi KTP/KTM, pas foto 3x4 (2 lembar), dan isi formulir pendaftaran. Kartu anggota selesai dalam 1 hari kerja.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Apakah tersedia layanan antar-jemput buku? <span>+</span>
+        </div>
+        <div class="faq-a">Ya, kami menyediakan layanan pengiriman buku untuk anggota dengan radius maksimal 5 km dari perpustakaan. Pemesanan dilakukan minimal H-1 melalui WhatsApp atau website. Biaya pengiriman disesuaikan dengan jarak.</div>
+      </div>
+    </div>
+
+    <div>
+      <p style="font-size:0.88rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.7">Temukan panduan lengkap penggunaan layanan perpustakaan kami. Unduh atau baca online.</p>
+ <div class="panduan-cards">
+
+  <a href="https://youtu.be/YZhE-_r1V5s?si=XVCyRWRyISYkG6_7" class="panduan-card">
+    <div class="panduan-icon">🔍</div>
+
+    <div class="panduan-text">
+      <h4>Cara Menggunakan OPAC</h4>
+      <p>Panduan penelusuran katalog online</p>
+    </div>
+
+    <span class="panduan-arrow">→</span>
+  </a>
+
+
+  <a href="https://pengadaan.penerbitdeepublish.com/perpustakaan/cara-pinjam-buku-di-perpusnas/" class="panduan-card">
+    <div class="panduan-icon">📋</div>
+
+    <div class="panduan-text">
+      <h4>Syarat Peminjaman Buku</h4>
+      <p>Ketentuan lengkap layanan pinjam</p>
+    </div>
+
+    <span class="panduan-arrow">→</span>
+  </a>
+
+
+  <a href="https://youtu.be/8l7MF3XGyXs?si=zjwyY2YN2bwHv9aQ" class="panduan-card">
+    <div class="panduan-icon">💳</div>
+
+    <div class="panduan-text">
+      <h4>Panduan Keanggotaan</h4>
+      <p>Cara daftar dan manfaat anggota</p>
+    </div>
+
+    <span class="panduan-arrow">→</span>
+  </a>
+
+
+  <a href="https://e-resources.perpusnas.go.id/panduan" class="panduan-card">
+    <div class="panduan-icon">📱</div>
+
+    <div class="panduan-text">
+      <h4>Akses E-Book & Database</h4>
+      <p>Panduan akses koleksi digital</p>
+    </div>
+
+    <span class="panduan-arrow">→</span>
+  </a>
+
+</div>
+</section>
+
+<!-- ─── AGENDA ─── -->
+<section id="agenda">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Agenda & Kegiatan</div>
+      <h2 class="section-title">Kegiatan yang Akan<br>Datang</h2>
+    </div>
+   
+  </div>
+
+  <div class="agenda-grid">
+    <div class="mini-calendar" id="miniCal">
+      <div class="cal-header">
+        <button class="cal-nav" onclick="changeMonth(-1)">‹</button>
+        <div class="cal-title" id="calTitle">Mei 2026</div>
+        <button class="cal-nav" onclick="changeMonth(1)">›</button>
+      </div>
+      <div class="cal-days-header">
+        <div>Min</div><div>Sen</div><div>Sel</div>
+        <div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div>
+      </div>
+      <div class="cal-days" id="calDays"></div>
+    </div>
+
+    <div class="agenda-list">
+      <div class="agenda-item">
+        <div class="agenda-date">
+          <div class="day">15</div>
+          <div class="mon">Mei</div>
+        </div>
+        <div class="agenda-info">
+          <h4>Workshop Literasi Digital 2026</h4>
+          <p>Pelatihan penggunaan database ilmiah dan penelusuran informasi akademik untuk mahasiswa.</p>
+          <span class="agenda-tag">🎓 Workshop</span>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-date">
+          <div class="day">18</div>
+          <div class="mon">Mei</div>
+        </div>
+        <div class="agenda-info">
+          <h4>Bazar Buku Murah</h4>
+          <p>Bazar buku bekas dan baru dengan diskon hingga 70%. Terbuka untuk umum, gratis masuk.</p>
+          <span class="agenda-tag">📚 Event</span>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-date">
+          <div class="day">22</div>
+          <div class="mon">Mei</div>
+        </div>
+        <div class="agenda-info">
+          <h4>Lomba Menulis Cerpen Pelajar</h4>
+          <p>Kompetisi menulis cerpen terbuka untuk pelajar SMA/SMK se-Kota Semarang. Hadiah total Rp 5 juta.</p>
+          <span class="agenda-tag">✍️ Lomba</span>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-date">
+          <div class="day">25</div>
+          <div class="mon">Mei</div>
+        </div>
+        <div class="agenda-info">
+          <h4>Bedah Buku: "Keajaiban Toko Kelontong Namiya"</h4>
+          <p>Diskusi buku bersama komunitas baca kota. Narasumber: penerbit dan sastrawan lokal.</p>
+          <span class="agenda-tag">📖 Diskusi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── BERITA ─── -->
+<section id="berita">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Berita & Pengumuman</div>
+      <h2 class="section-title">Informasi Terkini</h2>
+    </div>
+  </div>
+
+  <div class="berita-grid">
+    <div class="berita-main">
+      <div class="berita-img">
+        <img src="mobile.jpg">
+      </div>
+      <div class="berita-main-body">
+        <span class="berita-tag">Pengumuman</span>
+        <h3>Ruang Senja Resmi Meluncurkan Aplikasi Mobile untuk Kemudahan Akses Anggota</h3>
+        <p>Mulai 1 Mei 2026, anggota perpustakaan dapat mengakses katalog, memperpanjang pinjaman, dan memesan buku melalui aplikasi smartphone yang tersedia di Google Play dan App Store.</p>
+        <div class="berita-meta">22 April 2026 · Admin Ruang Senja</div>
+      </div>
+    </div>
+
+    <div class="berita-side">
+      <div class="berita-card">
+        <span class="berita-tag tag" style="background:var(--paper);color:var(--gold);font-size:0.6rem;font-weight:700;letter-spacing:0.12em;padding:0.2rem 0.5rem;border-radius:4px;display:inline-block;margin-bottom:0.5rem;">Kegiatan Selesai</span>
+        <h4>Pelatihan Penulisan Karya Ilmiah Tingkat SMA Berjalan Sukses</h4>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:0.3rem;">18 April 2026</p>
+      </div>
+      <div class="berita-card">
+        <span class="berita-tag tag" style="background:var(--paper);color:var(--rust);font-size:0.6rem;font-weight:700;letter-spacing:0.12em;padding:0.2rem 0.5rem;border-radius:4px;display:inline-block;margin-bottom:0.5rem;">Pengumuman</span>
+        <h4>Jadwal Libur Hari Raya Waisak: Ruang Senja Tutup 12–13 Mei 2026</h4>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:0.3rem;">15 April 2026</p>
+      </div>
+      <div class="berita-card">
+        <span class="berita-tag tag" style="background:var(--paper);color:var(--forest);font-size:0.6rem;font-weight:700;letter-spacing:0.12em;padding:0.2rem 0.5rem;border-radius:4px;display:inline-block;margin-bottom:0.5rem;">Koleksi Baru</span>
+        <h4>550 Judul Buku Baru Tersedia di Rak Koleksi Umum dan Referensi</h4>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:0.3rem;">10 April 2026</p>
+      </div>
+      <div class="berita-card">
+        <span class="berita-tag tag" style="background:var(--paper);color:var(--gold);font-size:0.6rem;font-weight:700;letter-spacing:0.12em;padding:0.2rem 0.5rem;border-radius:4px;display:inline-block;margin-bottom:0.5rem;">Prestasi</span>
+        <h4>Ruang Senja Raih Penghargaan Perpustakaan Inovatif 2025</h4>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:0.3rem;">5 April 2026</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── KONTAK ─── -->
+<section id="kontak">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Kontak Kami</div>
+      <h2 class="section-title">Hubungi Kami</h2>
+      <p class="section-desc" style="color:rgba(245,240,232,0.6)">Kami siap membantu. Kirim pesan atau kunjungi kami langsung.</p>
+    </div>
+  </div>
+
+  <div class="kontak-grid">
+    <div>
+      <div class="kontak-map">
+	  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.6506809966236!2d110.43472984248272!3d-7.05027019706136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e708c0232174b23%3A0x7eae5a5e6967295a!2sFakultas%20Ilmu%20Budaya%20Undip!5e0!3m2!1sid!2sid!4v1778691487528!5m2!1sid!2sid"
+    width="100%"
+    height="300"
+    style="border:0; border-radius:20px;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+      </div>
+      <div class="kontak-info">
+        <div class="kontak-item">
+          <div class="kontak-icon">📍</div>
+          <div>
+            <h4>Alamat</h4>
+            <p>Jl. Prof.Soedarto,<br>Tembalang, Kota Semarang,<br>Jawa Tengah 50132</p>
+          </div>
+        </div>
+        <div class="kontak-item">
+          <div class="kontak-icon">📞</div>
+          <div>
+            <h4>Nomor Telepon</h4>
+            <p>(024) 3564789<br>+62 812-3456-7890 (WhatsApp)</p>
+          </div>
+        </div>
+        <div class="kontak-item">
+          <div class="kontak-icon">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <p>info@ruangsenja.sch.id<br>layanan@ruangsenja.sch.id</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kontak-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" placeholder="Nama Anda">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="email@domain.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nomor Telepon</label>
+        <input type="tel" placeholder="+62 8xx-xxxx-xxxx">
+      </div>
+      <div class="form-group">
+        <label>Keperluan</label>
+        <select>
+          <option>Informasi Umum</option>
+          <option>Keanggotaan</option>
+          <option>Peminjaman Buku</option>
+          <option>Pemesanan Ruang</option>
+          <option>Saran & Kritik</option>
+          <option>Lainnya</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Pesan</label>
+        <textarea rows="5" placeholder="Tulis pesan Anda di sini..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitForm()">Kirim Pesan ✉️</button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="nav-logo" style="text-decoration:none;display:flex;align-items:center;gap:10px;color:white">
+    <div class="logo-icon">📚</div>
+    <div>
+      <div class="logo-text">Ruang Senja</div>
+      <div class="logo-sub" style="color:rgba(245,240,232,0.4)">©️ 2026 Perpustakaan Digital</div>
+    </div>
+  </div>
+  <p>Dibuat dengan ❤️ oleh Tim Teknologi Informasi</p>
+  <div class="footer-links">
+    <a href="#home">Beranda</a>
+    <a href="#profil">Profil</a>
+    <a href="#katalog">Katalog</a>
+    <a href="#kontak">Kontak</a>
+  </div>
+</footer>
+
+<script>
+  // ─── NAV ───
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  // Active nav on scroll
+  const sections = document.querySelectorAll('section[id], #home');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 80) current = s.id;
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  // ─── TABS ───
+  function switchTab(btn, id) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(id).classList.add('active');
+  }
+
+  // ─── FAQ ───
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    item.classList.toggle('open');
+  }
+
+  // ─── KOLEKSI FILTER ───
+  function filterKoleksi(btn, cat) {
+    document.querySelectorAll('.kol-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.koleksi-item').forEach(item => {
+      item.style.display = (cat === 'semua' || item.dataset.cat === cat) ? 'flex' : 'none';
+    });
+  }
+
+  // ─── SEARCH ───
+  function doSearch() {
+    const q = document.getElementById('searchInput').value.trim();
+    if (q) {
+      alert(`🔍 Mencari: "${q}"\n\nFitur pencarian lengkap tersedia di OPAC kami.`);
+    }
+  }
+  document.getElementById('searchInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doSearch();
+  });
+
+  // ─── FORM ───
+  function submitForm() {
+    alert('✅ Pesan Anda telah terkirim!\n\nKami akan menghubungi Anda dalam 1×24 jam kerja. Terima kasih.');
+  }
+
+  // ─── MINI CALENDAR ───
+  const monthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const eventDays = [5, 10, 15, 18, 22, 25];
+  let calDate = new Date(2026, 4, 1); // Mei 2026
+
+  function renderCal() {
+    document.getElementById('calTitle').textContent = monthNames[calDate.getMonth()] + ' ' + calDate.getFullYear();
+    const grid = document.getElementById('calDays');
+    grid.innerHTML = '';
+    const first = new Date(calDate.getFullYear(), calDate.getMonth(), 1).getDay();
+    const daysInMonth = new Date(calDate.getFullYear(), calDate.getMonth()+1, 0).getDate();
+    const prevDays = new Date(calDate.getFullYear(), calDate.getMonth(), 0).getDate();
+    const today = new Date();
+
+    for (let i = first - 1; i >= 0; i--) {
+      const d = document.createElement('div');
+      d.className = 'cal-day other-month';
+      d.textContent = prevDays - i;
+      grid.appendChild(d);
+    }
+    for (let d = 1; d <= daysInMonth; d++) {
+      const el = document.createElement('div');
+      el.className = 'cal-day';
+      el.textContent = d;
+      const isToday = today.getDate() === d && today.getMonth() === calDate.getMonth() && today.getFullYear() === calDate.getFullYear();
+      if (isToday) el.classList.add('today');
+      if (eventDays.includes(d)) el.classList.add('has-event');
+      grid.appendChild(el);
+    }
+  }
+
+  function changeMonth(dir) {
+    calDate.setMonth(calDate.getMonth() + dir);
+    renderCal();
+  }
+
+  renderCal();
+
+  // ─── SCROLL ANIMATIONS ───
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animation = 'fadeUp 0.5s ease both';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.layanan-card, .koleksi-item, .agenda-item, .berita-card, .panduan-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.animation = 'none';
+    observer.observe(el);
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.layanan-card, .koleksi-item, .agenda-item, .berita-card, .panduan-card').forEach((el, i) => {
+      el.style.opacity = '';
+      el.style.animationDelay = (i * 0.05) + 's';
+    });
+  }, 100);
+</script>
+</body>
+</html>
